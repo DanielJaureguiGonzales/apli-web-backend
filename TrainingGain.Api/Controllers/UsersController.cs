@@ -33,7 +33,7 @@ namespace TrainingGain.Api.Controllers
             Description ="List of Users",
             OperationId ="ListAllUsers",
             Tags = new[] {"Users"})]
-        [SwaggerResponse(200,"List of Users",typeof(IEnumerable<UserResource>))]
+        [SwaggerResponse(200,"OK",typeof(IEnumerable<UserResource>))]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<UserResource>),200)]
         public async Task<IEnumerable<UserResource>> GetAllAsync()
@@ -43,7 +43,14 @@ namespace TrainingGain.Api.Controllers
             return resources;
         }
 
+        [SwaggerOperation(
+            Summary = "Find user by id",
+            Description = "A specific user is returned",
+            OperationId ="GetUser",
+            Tags = new[] { "Users" })]
+        [SwaggerResponse(200, "OK", typeof(UserResource))]
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(UserResource), 200)]
         public async Task<IActionResult> GetById(int id)
         {
             var user = await _userService.GetByIdAsync(id);
@@ -51,8 +58,14 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
-
+        [SwaggerOperation(
+           Summary = "User creation",
+           Description = "A user is created in the system",
+           OperationId ="CreateUser",
+           Tags = new[] { "Users" })]
+        [SwaggerResponse(200, "OK", typeof(SaveUserResource))]
         [HttpPost]
+        [ProducesResponseType(typeof(UserResource), 200)]
         public async Task<IActionResult>PostAsync([FromBody] SaveUserResource resource)
         {
             if (!ModelState.IsValid)
@@ -67,7 +80,14 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [SwaggerOperation(
+          Summary = "Updating of user data",
+          Description = "The specific user data is updated",
+          OperationId = "UpdateUser",
+          Tags = new[] { "Users" })]
+        [SwaggerResponse(200, "OK", typeof(SaveUserResource))]
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(UserResource), 200)]
         public async Task<IActionResult> PutAsync(int id,[FromBody] SaveUserResource resource)
         {
            
@@ -81,7 +101,14 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [SwaggerOperation(
+          Summary = "Delete User",
+          Description = "The specific user data is deleted",
+          OperationId = "DeleteUser",
+          Tags = new[] { "Users" })]
+        [SwaggerResponse(200, "OK", typeof(SaveUserResource))]
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(UserResource),200)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
 
