@@ -41,9 +41,17 @@ namespace TrainingGain.Api.Controllers
             var users = await _userService.ListAsync();
             var resources = _mapper.Map<IEnumerable<User>, IEnumerable<UserResource>>(users);
             return resources;
-        } 
+        }
 
-      
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var user = await _userService.GetByIdAsync(id);
+            var userResource = _mapper.Map<User, UserResource>(user.Resource);
+            return Ok(userResource);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult>PostAsync([FromBody] SaveUserResource resource)
         {
