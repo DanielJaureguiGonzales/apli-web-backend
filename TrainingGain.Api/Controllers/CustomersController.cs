@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TrainingGain.Api.Domain.Models;
 using TrainingGain.Api.Domain.Services;
 using TrainingGain.Api.Extensions;
@@ -26,8 +27,14 @@ namespace TrainingGain.Api.Controllers
             _customerService = customerService;
             _mapper = mapper;
         }
-
+        [SwaggerOperation(
+                Summary = "List all customers",
+                Description = "List of Customers",
+                OperationId = "ListAllCustomers",
+                Tags = new[] { "Customers" })]
+        [SwaggerResponse(200, "List of Customers", typeof(IEnumerable<CustomerResource>))]
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<CustomerResource>), 200)]
         public async Task<IEnumerable<CustomerResource>> GetAllAsync()
         {
             var customers = await _customerService.ListAsync();
@@ -35,8 +42,14 @@ namespace TrainingGain.Api.Controllers
             return resources;
         }
 
-
+        [SwaggerOperation(
+                Summary = "Post a customer",
+                Description = "Post of Customer",
+                OperationId = "PostCustomer",
+                Tags = new[] { "Customers" })]
+        [SwaggerResponse(200, "Post of Customer", typeof(CustomerResource))]
         [HttpPost]
+        [ProducesResponseType(typeof(CustomerResource), 200)]
         public async Task<IActionResult> PostAsync([FromBody] SaveCustomerResource resource)
         {
             if (!ModelState.IsValid)
@@ -51,7 +64,14 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [SwaggerOperation(
+               Summary = "Put a customer",
+               Description = "Put of Customer",
+               OperationId = "PutCustomer",
+               Tags = new[] { "Customers" })]
+        [SwaggerResponse(200, "Put of Customer", typeof(CustomerResource))]
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(CustomerResource), 200)]
         public async Task<IActionResult> PutAsync(int id, [FromBody] SaveCustomerResource resource)
         {
 
@@ -65,7 +85,14 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [SwaggerOperation(
+               Summary = "Delete a customer",
+               Description = "Delete of Customer",
+               OperationId = "DeleteCustomer",
+               Tags = new[] { "Customers" })]
+        [SwaggerResponse(200, "Delete of Customer", typeof(CustomerResource))]
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(CustomerResource), 200)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
 

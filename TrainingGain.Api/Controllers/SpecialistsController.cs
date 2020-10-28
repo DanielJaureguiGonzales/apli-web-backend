@@ -29,10 +29,10 @@ namespace TrainingGain.Api.Controllers
         }
         [SwaggerOperation(
                 Summary = "List all specialists",    
-                Description ="List of specialists",
+                Description ="List of Specialists",
                 OperationId ="ListAllSpecialists",
                 Tags = new [] {"Specialists"})]
-        [SwaggerResponse(200,"List of specialists",typeof(IEnumerable<SpecialistResource>))]
+        [SwaggerResponse(200,"List of Specialists",typeof(IEnumerable<SpecialistResource>))]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<SpecialistResource>), 200)]
         public async Task<IEnumerable<SpecialistResource>> GetAllAsync()
@@ -42,8 +42,14 @@ namespace TrainingGain.Api.Controllers
             return resources;
         }
 
-
+        [SwaggerOperation(
+                Summary = "Post a specialist",
+                Description = "Post of Specialist",
+                OperationId = "PostSpecialist",
+                Tags = new[] { "Specialists" })]
+        [SwaggerResponse(200, "Post of Specialists", typeof(SpecialistResource))]
         [HttpPost]
+        [ProducesResponseType(typeof(SpecialistResource), 200)]
         public async Task<IActionResult> PostAsync([FromBody] SaveSpecialistResource resource)
         {
             if (!ModelState.IsValid)
@@ -58,7 +64,14 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [SwaggerOperation(
+               Summary = "Put a specialist",
+               Description = "Put of Specialist",
+               OperationId = "PutSpecialist",
+               Tags = new[] { "Specialists" })]
+        [SwaggerResponse(200, "Put of Specialist", typeof(SpecialistResource))]
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(SpecialistResource), 200)]
         public async Task<IActionResult> PutAsync(int id, [FromBody] SaveSpecialistResource resource)
         {
 
@@ -72,7 +85,14 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [SwaggerOperation(
+              Summary = "Delete a specialist",
+              Description = "Delete of Specialist",
+              OperationId = "DeleteSpecialist",
+              Tags = new[] { "Specialists" })]
+        [SwaggerResponse(200, "Delete of Specialist", typeof(SpecialistResource))]
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(SpecialistResource), 200)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
 
