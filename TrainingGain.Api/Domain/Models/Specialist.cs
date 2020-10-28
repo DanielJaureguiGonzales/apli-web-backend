@@ -5,18 +5,15 @@ using System.Threading.Tasks;
 
 namespace TrainingGain.Api.Domain.Models
 {
-    public partial class Specialist
+    public class Specialist
     {
-        public Specialist()
-        {
-            Userspecialist = new HashSet<UserSpecialist>();
-        }
-
+        public int Id { get; set; }
         public int UserId { get; set; }
         public string Specialty { get; set; }
-        public int Id { get; set; }
+       
 
-        public virtual User User { get; set; }
-        public virtual ICollection<UserSpecialist> Userspecialist { get; set; }
+        public User User { get; set; }
+
+        public IList<Session> Sessions { get; set; } = new List<Session>();
     }
 }

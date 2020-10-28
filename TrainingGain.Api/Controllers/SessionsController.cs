@@ -13,6 +13,7 @@ using TrainingGain.Api.Resources;
 namespace TrainingGain.Api.Controllers
 {
     [ApiController]
+    [Produces("application/json")]
     [Route("api/[controller]")]
 
     public class SessionsController : ControllerBase

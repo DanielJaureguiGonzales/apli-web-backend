@@ -57,11 +57,8 @@ namespace TrainingGain.Api.Services
 
             existingSession.Tittle = session.Tittle;
             existingSession.Description = session.Description;
-            existingSession.Duration = session.Duration;
-            existingSession.Enable = session.Enable;
             existingSession.StartDate = session.StartDate;
-            existingSession.Enable = session.Enable;
-            existingSession.Cost = session.Cost;
+
 
             try
             {
@@ -96,7 +93,10 @@ namespace TrainingGain.Api.Services
             }
         }
 
-       
+        public async Task<IEnumerable<Session>> ListBySpecialistIdAsync(int specialistId) 
+        {
+            return await _sessionRepository.ListAsyncBySpecialistId(specialistId);
+        }
     }
     
 }

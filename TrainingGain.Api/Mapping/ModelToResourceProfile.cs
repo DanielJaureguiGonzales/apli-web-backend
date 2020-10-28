@@ -16,8 +16,7 @@ namespace TrainingGain.Api.Mapping
             CreateMap<Specialist, SpecialistResource>();
             CreateMap<Customer, CustomerResource>();
             CreateMap<Session, SessionResource>();
-
-         
+            CreateMap<SubscriptionPlan, SubscriptionPlanResource>();
         }
 
     }

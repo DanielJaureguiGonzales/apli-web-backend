@@ -17,32 +17,37 @@ namespace TrainingGain.Api.Persistance.Repositories
 
         public async Task AddAsync(Session session)
         {
-            await _context.Session.AddAsync(session);
+            await _context.Sessions.AddAsync(session);
         }
 
         public async Task<Session> FindById(int id)
         {
-            return await _context.Session.FindAsync(id);
+            return await _context.Sessions.FindAsync(id);
         }
 
         public async Task<IEnumerable<Session>> ListAsync()
         {
-            return await _context.Session.ToListAsync();
+            return await _context.Sessions.Include(s=>s.Specialist).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Session>> ListAsyncBySpecialistId(int specialistId)
+        {
+            return await _context.Sessions.Where(s => s.SpecialistId == specialistId).Include(s => s.Specialist).ToListAsync();
         }
 
         public async Task<IEnumerable<Session>> ListAsyncByTittle(string tittle)
         {
-            return await _context.Session.Where(pt => pt.Tittle == tittle).ToListAsync();
+            return await _context.Sessions.Where(pt => pt.Tittle == tittle).Include(s => s.Specialist).ToListAsync();
         }
 
         public void Remove(Session session)
         {
-            _context.Session.Remove(session);
+            _context.Sessions.Remove(session);
         }
 
         public void Update(Session session)
         {
-            _context.Session.Update(session);
+            _context.Sessions.Update(session);
         }
 
        

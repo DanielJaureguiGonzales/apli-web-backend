@@ -17,27 +17,27 @@ namespace TrainingGain.Api.Persistance.Repositories
 
         public async Task AddAsync(Specialist specialist)
         {
-            await _context.Specialist.AddAsync(specialist);
+            await _context.Specialists.AddAsync(specialist);
         }
 
         public async Task<Specialist> FindById(int id)
         {
-            return await _context.Specialist.FindAsync(id);
+            return await _context.Specialists.FindAsync(id);
         }
 
         public async Task<IEnumerable<Specialist>> ListAsync()
         {
-            return await _context.Specialist.ToListAsync();
+            return await _context.Specialists.ToListAsync();
         }
 
         public void Remove(Specialist specialist)
         {
-            _context.Specialist.Remove(specialist);
+            _context.Specialists.Remove(specialist);
         }
 
         public void Update(Specialist specialist)
         {
-            _context.Specialist.Update(specialist);
+            _context.Specialists.Update(specialist);
         }
     }
 }

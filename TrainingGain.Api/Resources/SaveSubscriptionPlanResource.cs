@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace TrainingGain.Api.Resources
 {
-    public class SaveSpecialistResource
+    public class SaveSubscriptionPlanResource
     {
         [Required]
-        [MaxLength(20)]
-        public string Specialty { get; set; }
+        [MaxLength(50)]
+        public string Description { get; set; }
         [Required]
-        public int UserId { get; set; }
- 
+        public int Cost { get; set; }
     }
 }

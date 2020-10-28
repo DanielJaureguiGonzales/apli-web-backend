@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace TrainingGain.Api.Resources
 {
-    public class SpecialistResource 
+    public class SubscriptionPlanResource
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
-        public string Specialty { get; set; }
+        public string Description { get; set; }
+        public int Cost { get; set; }
 
     }
 }

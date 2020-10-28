@@ -38,6 +38,10 @@ namespace TrainingGain.Api
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ISessionRepository, SessionRepository>();
             services.AddScoped<ISessionService, SessionService>();
+            services.AddScoped<ISubscriptionPlanRepository, SubscriptionPlanRepository>();
+            services.AddScoped<ISubscriptionPlanService, SubscriptionPlanService>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+            services.AddScoped<ISubscriptionService, SubscriptionService>();
             services.AddRouting(option => option.LowercaseUrls = true);
 
             services.AddCustomSwagger();

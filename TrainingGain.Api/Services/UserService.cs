@@ -75,17 +75,17 @@ namespace TrainingGain.Api.Services
             if (existingUser == null)
                 return new UserResponse("user not found");
 
-            existingUser.Username = user.Username;
-            existingUser.Password = user.Password;
-            existingUser.EmailAddress = user.EmailAddress;
             existingUser.Name = user.Name;
-            existingUser.Lastname = user.Lastname;
-            existingUser.Age = user.Age;
-            existingUser.Gender = user.Gender;
-            existingUser.Phone = user.Phone;
+            existingUser.LastName = user.LastName;
+            existingUser.Birth = user.Birth;
             existingUser.Address = user.Address;
-
-
+            existingUser.Phone = user.Phone;
+            existingUser.Age = user.Age;
+            existingUser.Password = user.Password;
+            existingUser.Email = user.Email;
+            existingUser.Country = user.Country;
+            existingUser.Gender = user.Gender;
+           
             try
             {
                 _userRepository.Update(existingUser);

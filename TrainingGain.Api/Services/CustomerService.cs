@@ -12,12 +12,14 @@ namespace TrainingGain.Api.Services
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly ISubscriptionRepository _subscriptionRepository;
         public readonly IUnitOfWork _unitOfWork;
 
-        public CustomerService(ICustomerRepository customerRepository, IUnitOfWork unitOfWork)
+        public CustomerService(ICustomerRepository customerRepository, IUnitOfWork unitOfWork, ISubscriptionRepository subscriptionRepository)
         {
             _customerRepository = customerRepository;
             _unitOfWork = unitOfWork;
+            _subscriptionRepository = subscriptionRepository;
         }
 
         public async Task<CustomerResponse> DeleteAsync(int id)
@@ -88,6 +90,13 @@ namespace TrainingGain.Api.Services
             {
                 return new CustomerResponse($"An error ocurred while updating customer: {ex.Message}");
             }
+        }
+
+        public async Task<IEnumerable<Customer>> ListBySubscriptionPlanId(int subscriptionplanId)
+        {
+            var subscription = await _subscriptionRepository.ListBySubscriptionPlanIdAsync(subscriptionplanId);
+            var customer = subscription.Select(s => s.Customer).ToList();
+            return customer;
         }
     }
 }

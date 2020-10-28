@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TrainingGain.Api.Domain.Models;
 using TrainingGain.Api.Domain.Services;
 using TrainingGain.Api.Extensions;
@@ -13,6 +14,7 @@ using TrainingGain.Api.Resources;
 namespace TrainingGain.Api.Controllers
 {
     [ApiController]
+    [Produces("application/json")]
     [Route("api/[controller]")]
 
     public class SpecialistsController : ControllerBase
@@ -25,8 +27,14 @@ namespace TrainingGain.Api.Controllers
             _specialistService = specialistService;
             _mapper = mapper;
         }
-
+        [SwaggerOperation(
+                Summary = "List all specialists",    
+                Description ="List of specialists",
+                OperationId ="ListAllSpecialists",
+                Tags = new [] {"Specialists"})]
+        [SwaggerResponse(200,"List of specialists",typeof(IEnumerable<SpecialistResource>))]
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<SpecialistResource>), 200)]
         public async Task<IEnumerable<SpecialistResource>> GetAllAsync()
         {
             var specialists = await _specialistService.ListAsync();
