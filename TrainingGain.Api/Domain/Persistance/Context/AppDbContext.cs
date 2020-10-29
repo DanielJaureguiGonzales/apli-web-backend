@@ -24,7 +24,8 @@ namespace TrainingGain.Api.Domain.Persistance.Context
         public virtual DbSet<Specialist> Specialists { get; set; }
         public virtual DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
         public virtual DbSet<Subscription> Subscriptions { get; set; }   
-        public virtual DbSet<User> Users { get; set; }  
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<History> Histories { get; set; }
 
 
 
