@@ -28,7 +28,13 @@ namespace TrainingGain.Api
         {
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
-            services.AddDbContext<AppDbContext>(option => option.UseMySQL(Configuration.GetConnectionString("MySqlConnection")));
+            services.AddDbContext<AppDbContext>(option => {
+
+                // option.UseMySQL(Configuration.GetConnectionString("MySqlConnection")
+                option.UseMySQL(Configuration.GetConnectionString("AzureMySQLConnection"));
+
+
+            });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
