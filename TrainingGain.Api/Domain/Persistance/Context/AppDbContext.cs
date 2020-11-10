@@ -26,6 +26,7 @@ namespace TrainingGain.Api.Domain.Persistance.Context
         public virtual DbSet<Subscription> Subscriptions { get; set; }   
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<History> Histories { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
 
 
 
@@ -88,13 +89,22 @@ namespace TrainingGain.Api.Domain.Persistance.Context
             builder.Entity<Session>().Property(ss => ss.Description).IsRequired().HasMaxLength(50);
             builder.Entity<Session>().Property(ss => ss.StartDate).IsRequired();
 
-            // History entity
+            // History entity 
 
             builder.Entity<History>().ToTable("histories");
             builder.Entity<History>().HasKey(h => new { h.CustomerId, h.SessionId });
             builder.Entity<History>().Property(h=>h.Watched).IsRequired();
             builder.Entity<History>().HasOne(h=>h.Customer).WithMany(c=>c.Histories).HasForeignKey(h=>h.CustomerId);
             builder.Entity<History>().HasOne(h=>h.Session).WithMany(s=>s.Histories).HasForeignKey(h=>h.SessionId);
+
+            // Review entity
+
+            builder.Entity<Review>().ToTable("reviews");
+            builder.Entity<Review>().HasKey(r => new { r.CustomerId, r.SpecialistId });
+            builder.Entity<Review>().Property(r => r.Description).IsRequired().HasMaxLength(200);
+            builder.Entity<Review>().Property(r => r.Rank).IsRequired();
+            builder.Entity<Review>().HasOne(r => r.Customer).WithMany(c => c.Reviews).HasForeignKey(r => r.CustomerId);
+            builder.Entity<Review>().HasOne(r => r.Specialist).WithMany(s => s.Reviews).HasForeignKey(r => r.SpecialistId);
 
             builder.ApplySnakeCaseNamingConvention();
         }

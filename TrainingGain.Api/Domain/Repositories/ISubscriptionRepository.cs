@@ -11,10 +11,10 @@ namespace TrainingGain.Api.Domain.Repositories
         Task<IEnumerable<Subscription>> ListAsync();
         Task<IEnumerable<Subscription>> ListByCustomerIdAsync(int customerId);  
         Task<IEnumerable<Subscription>> ListBySubscriptionPlanIdAsync(int subscriptionplanId);
-        Task<Subscription> FindByCustomerIdAndSubscriptionPlanIdId(int customerId, int subscriptionplanId);    
+        Task<Subscription> FindByCustomerIdAndSubscriptionPlanId(int customerId, int subscriptionplanId);    
         Task AddAsync(Subscription subscription);
         void Remove(Subscription subscription);
-        Task AssingSubscription(int customerId, int subscriptionplanId);
+        Task AssingSubscription(int customerId, int subscriptionplanId, DateTime start_date, DateTime expiry_date);
         void UnassingSubscription(int customerId, int subscriptionplanId);        
     }
 }

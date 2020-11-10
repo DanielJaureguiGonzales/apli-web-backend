@@ -19,13 +19,17 @@ namespace TrainingGain.Api.Controllers
     [ApiController]
     public class SubscriptionController : ControllerBase
     {
-        private readonly ISubscriptionService _subscriptionService; 
+        private readonly ISubscriptionService _subscriptionService;
+        private readonly ISubscriptionPlanService _subscriptionPlanService;
+        private readonly ICustomerService _customerService; 
         private readonly IMapper _mapper;
 
-        public SubscriptionController(ISubscriptionService subscriptionService, IMapper mapper)
+        public SubscriptionController(ISubscriptionService subscriptionService, IMapper mapper, ISubscriptionPlanService subscriptionPlanService, ICustomerService customerService)
         {
             _subscriptionService = subscriptionService;
             _mapper = mapper;
+            _subscriptionPlanService = subscriptionPlanService;
+            _customerService = customerService;
         }
 
         [SwaggerOperation(
@@ -38,11 +42,12 @@ namespace TrainingGain.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<SubscriptionResource>), 200)]
         public async Task<IEnumerable<SubscriptionResource>> GetAllAsync()
         {
-            var subscriptions = await _subscriptionService.ListAsyn();
+            var subscriptions = await _subscriptionService.ListAsync();
             var resources = _mapper.Map<IEnumerable<Subscription>, IEnumerable<SubscriptionResource>>(subscriptions);
             return resources;
         }
-
+    
+        
         [SwaggerOperation(
                 Summary = "Post a subscription",
                 Description = "Post of subscription",
@@ -56,7 +61,7 @@ namespace TrainingGain.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetMessages());
             var subscriptions = _mapper.Map<SaveSubscriptionResource, Subscription>(resource);
-            var result = await _subscriptionService.AssignSubscriptionAsync(subscriptions.CustomerId,subscriptions.SubscriptionPlanId);
+            var result = await _subscriptionService.AssignSubscriptionAsync(subscriptions.CustomerId,subscriptions.SubscriptionPlanId,subscriptions.StartDate,subscriptions.ExpiryDate);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -71,18 +76,37 @@ namespace TrainingGain.Api.Controllers
               OperationId = "DeleteSubscription",
               Tags = new[] { "Subscriptions" })]
         [SwaggerResponse(200, "Delete of subscription", typeof(SubscriptionResource))]
-        [HttpDelete("customer/{customerid}/subscriptionplan/{subscriptionplanid}")]
+        [HttpDelete]
         [ProducesResponseType(typeof(SubscriptionResource), 200)]
-        public async Task<IActionResult> DeleteAsync(int customerid,int subscriptionplanid)
+        public async Task<IActionResult> DeleteAsync([FromBody] SaveSubscriptionResource resource)
         {
 
-            var result = await _subscriptionService.UnassignSubscriptionAsync(customerid, subscriptionplanid);
+            var result = await _subscriptionService.UnassignSubscriptionAsync(resource.CustomerId, resource.SubscriptionPlanId);
 
             if (!result.Success)
                 return BadRequest(result.Message);
 
             var subscriptionsResource = _mapper.Map<Subscription, SubscriptionResource>(result.Resource);
             return Ok(subscriptionsResource);
+        }
+
+        [SwaggerOperation(
+            Tags = new[] { "Customers" })]
+        [HttpGet("customers/{customerId}")]
+        public async Task<IEnumerable<SubscriptionPlanResource>> GetAllByCustomerIdAsync(int customerId)
+        {
+            var subscriptionPlans = await _subscriptionPlanService.ListByCustomerIdAsync(customerId);
+            var resources = _mapper.Map<IEnumerable<SubscriptionPlan>, IEnumerable<SubscriptionPlanResource>>(subscriptionPlans);
+            return resources;
+        }
+        [SwaggerOperation(
+          Tags = new[] { "SubscriptionPlans" })]
+        [HttpGet("plans/{subscriptionPlanId}")]
+        public async Task<IEnumerable<CustomerResource>> GetAllBySubscriptionPlanIdAsync(int subscriptionPlanId)
+        {
+            var customers = await _customerService.ListBySubscriptionPlanId(subscriptionPlanId);
+            var resources = _mapper.Map<IEnumerable<Customer>, IEnumerable<CustomerResource>>(customers);
+            return resources;
         }
 
     }

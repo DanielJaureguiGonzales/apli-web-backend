@@ -19,6 +19,7 @@ namespace TrainingGain.Api.Mapping
             CreateMap<SubscriptionPlan, SubscriptionPlanResource>();
             CreateMap<Subscription, SubscriptionResource>();
             CreateMap<History, HistoryResource>();
+            CreateMap<Review, ReviewResource>();
         }
 
     }

@@ -20,17 +20,20 @@ namespace TrainingGain.Api.Persistance.Repositories
             await _context.Subscriptions.AddAsync(subscription);
         }
 
-        public async Task AssingSubscription(int customerId, int subscriptionplanId)
+        public async Task AssingSubscription(int customerId, int subscriptionplanId,DateTime start_date,DateTime expiry_date)
         {
-            Subscription subscription = await FindByCustomerIdAndSubscriptionPlanIdId(customerId, subscriptionplanId);
+            Subscription subscription = await FindByCustomerIdAndSubscriptionPlanId(customerId, subscriptionplanId);
             if(subscription == null)
             {
-                subscription = new Subscription { CustomerId = customerId, SubscriptionPlanId = subscriptionplanId };
+                subscription = new Subscription { CustomerId = customerId, SubscriptionPlanId = subscriptionplanId, StartDate=start_date,ExpiryDate=expiry_date};
                 await AddAsync(subscription);
             }
+            subscription.StartDate = start_date;
+            subscription.ExpiryDate = expiry_date;
+
         }
 
-        public async Task<Subscription> FindByCustomerIdAndSubscriptionPlanIdId(int customerId, int subscriptionplanId)
+        public async Task<Subscription> FindByCustomerIdAndSubscriptionPlanId(int customerId, int subscriptionplanId)
         {
             return await _context.Subscriptions.FindAsync(customerId, subscriptionplanId);
         }
@@ -58,7 +61,7 @@ namespace TrainingGain.Api.Persistance.Repositories
 
         public async void UnassingSubscription(int customerId, int subscriptionplanId)  
         {
-            Subscription subscription = await FindByCustomerIdAndSubscriptionPlanIdId(customerId, subscriptionplanId);
+            Subscription subscription = await FindByCustomerIdAndSubscriptionPlanId(customerId, subscriptionplanId);
             if (subscription != null)
             {
                 Remove(subscription);

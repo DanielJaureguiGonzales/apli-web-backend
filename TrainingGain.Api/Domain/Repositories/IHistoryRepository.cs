@@ -11,7 +11,10 @@ namespace TrainingGain.Api.Domain.Repositories
         Task<IEnumerable<History>> ListAsync();
         Task<IEnumerable<History>> ListByCustomerIdAsync(int customerId);
         Task<IEnumerable<History>> ListBySessionIdAsync(int sessionId);
+        Task<History> FindByCustomerIdAndSessionId(int customerId, int sessionId);  
         Task AddAsync(History history);
-        void Remove(History history);   
+        void Remove(History history);
+        Task AssingHistory(int customerId, int sessionId, DateTime Watched);    
+
     }
 }

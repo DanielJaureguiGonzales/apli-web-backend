@@ -12,13 +12,15 @@ namespace TrainingGain.Api.Services
     public class SessionService : ISessionService
     {
         private readonly ISessionRepository _sessionRepository;
+        private readonly IHistoryRepository _historyRepository;
         public readonly IUnitOfWork _unitOfWork;
 
-        public SessionService(ISessionRepository sessionRepository, IUnitOfWork unitOfWork)
+        public SessionService(ISessionRepository sessionRepository, IUnitOfWork unitOfWork, IHistoryRepository historyRepository)
         {
 
             _sessionRepository = sessionRepository;
             _unitOfWork = unitOfWork;
+            _historyRepository = historyRepository;
         }
 
         public async Task<IEnumerable<Session>> ListAsync()
@@ -96,6 +98,12 @@ namespace TrainingGain.Api.Services
         public async Task<IEnumerable<Session>> ListBySpecialistIdAsync(int specialistId) 
         {
             return await _sessionRepository.ListAsyncBySpecialistId(specialistId);
+        }
+        public async Task<IEnumerable<Session>> ListByCustomerIdAsync(int customerId)
+        {
+            var histories = await _historyRepository.ListByCustomerIdAsync(customerId);
+            var sessions = histories.Select(s => s.Session).ToList();
+            return sessions;
         }
     }
     

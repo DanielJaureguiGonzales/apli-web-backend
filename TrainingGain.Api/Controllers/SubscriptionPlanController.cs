@@ -13,7 +13,7 @@ using TrainingGain.Api.Resources;
 
 namespace TrainingGain.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/plans")]
     [Produces("application/json")]
     [ApiController]
     public class SubscriptionPlanController : ControllerBase

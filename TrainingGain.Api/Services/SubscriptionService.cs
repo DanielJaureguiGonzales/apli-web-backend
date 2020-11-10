@@ -19,13 +19,13 @@ namespace TrainingGain.Api.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<SubscriptionResponse> AssignSubscriptionAsync(int customerId, int subscriptionplanId)
+        public async Task<SubscriptionResponse> AssignSubscriptionAsync(int customerId, int subscriptionplanId, DateTime start_date, DateTime expiry_date)
         {
             try
             {
-                await _subscriptionRepository.AssingSubscription(customerId, subscriptionplanId);
+                await _subscriptionRepository.AssingSubscription(customerId, subscriptionplanId,start_date,expiry_date);
                 await _unitOfWork.CompleteAsync();
-                Subscription subscription = await _subscriptionRepository.FindByCustomerIdAndSubscriptionPlanIdId(customerId, subscriptionplanId);
+                Subscription subscription = await _subscriptionRepository.FindByCustomerIdAndSubscriptionPlanId(customerId, subscriptionplanId);
                 return new SubscriptionResponse(subscription);
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace TrainingGain.Api.Services
             }
         }
 
-        public async Task<IEnumerable<Subscription>> ListAsyn()
+        public async Task<IEnumerable<Subscription>> ListAsync()
         {
             return await _subscriptionRepository.ListAsync();
         }

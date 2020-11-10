@@ -15,5 +15,7 @@ namespace TrainingGain.Api.Domain.Models
         public User User { get; set; }
 
         public IList<Session> Sessions { get; set; } = new List<Session>();
+
+        public List<Review> Reviews { get; set; }
     }
 }

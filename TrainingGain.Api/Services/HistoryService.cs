@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TrainingGain.Api.Domain.Models;
 using TrainingGain.Api.Domain.Repositories;
 using TrainingGain.Api.Domain.Services;
+using TrainingGain.Api.Domain.Services.Communication;
 
 namespace TrainingGain.Api.Services
 {
@@ -19,7 +20,22 @@ namespace TrainingGain.Api.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<History>> ListAsyn()
+        public async Task<HistoryResponse> AssignHistoryAsync(int customerId, int sessionId,DateTime Watched)   
+        {
+            try
+            {
+                await _historyRepository.AssingHistory(customerId, sessionId, Watched);
+                await _unitOfWork.CompleteAsync();
+                History history = await _historyRepository.FindByCustomerIdAndSessionId(customerId, sessionId);
+                return new HistoryResponse(history);
+            }
+            catch (Exception ex)
+            {
+                return new HistoryResponse($"An error ocurred while assigning history to session:{ex.Message}");
+            }
+        }
+
+        public async Task<IEnumerable<History>> ListAsync()
         {
             return await _historyRepository.ListAsync();
         }
@@ -33,5 +49,6 @@ namespace TrainingGain.Api.Services
         {
             return await _historyRepository.ListBySessionIdAsync(sessionId);
         }
+
     }
 }

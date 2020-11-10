@@ -16,5 +16,6 @@ namespace TrainingGain.Api.Domain.Models
 
         public List<Subscription> Subscriptions { get; set; }
         public List<History> Histories { get; set; }    
+        public List<Review> Reviews { get; set; }
     }
 }

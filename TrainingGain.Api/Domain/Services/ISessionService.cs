@@ -11,7 +11,8 @@ namespace TrainingGain.Api.Domain.Services
     {
         Task<IEnumerable<Session>> ListAsync();
         Task<IEnumerable<Session>> ListAsyncByTittle(string tittle);
-        Task<IEnumerable<Session>> ListBySpecialistIdAsync(int specialistId);   
+        Task<IEnumerable<Session>> ListBySpecialistIdAsync(int specialistId);
+        Task<IEnumerable<Session>> ListByCustomerIdAsync(int customerId);
         Task<SessionResponse> SaveAsync(Session session);
         Task<SessionResponse> UpdateAsync(int id, Session session);
         Task<SessionResponse> DeleteAsync(int id);

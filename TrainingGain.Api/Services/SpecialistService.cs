@@ -12,12 +12,14 @@ namespace TrainingGain.Api.Services
     public class SpecialistService : ISpecialistService
     {
         private readonly ISpecialistRepository _specialistRepository;
+        private readonly IReviewRepository _reviewRepository;
         public readonly IUnitOfWork _unitOfWork;
 
-        public SpecialistService(ISpecialistRepository specialistRepository, IUnitOfWork unitOfWork)
+        public SpecialistService(ISpecialistRepository specialistRepository, IUnitOfWork unitOfWork, IReviewRepository reviewRepository)
         {
             _specialistRepository = specialistRepository;
             _unitOfWork = unitOfWork;
+            _reviewRepository = reviewRepository;
         }
 
         public async Task<SpecialistResponse> DeleteAsync(int id)
@@ -88,6 +90,13 @@ namespace TrainingGain.Api.Services
             {
                 return new SpecialistResponse($"An error ocurred while updating specialist: {ex.Message}");
             }
+        }
+
+        public async Task<IEnumerable<Specialist>> ListByCustomerIdAsync(int customerId)
+        {
+            var histories = await _reviewRepository.ListByCustomerIdAsync(customerId);
+            var specialists = histories.Select(s => s.Specialist).ToList();
+            return specialists;
         }
     }
 }

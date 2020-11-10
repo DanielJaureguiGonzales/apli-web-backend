@@ -20,6 +20,22 @@ namespace TrainingGain.Api.Persistance.Repositories
             await _context.Histories.AddAsync(history);
         }
 
+        public async Task AssingHistory(int customerId, int sessionId,DateTime Watched) 
+        {
+            History history = await FindByCustomerIdAndSessionId(customerId, sessionId);
+            if (history==null)
+            {
+                history = new History { CustomerId = customerId, SessionId = sessionId , Watched=Watched};
+                await AddAsync(history);
+            }
+            history.Watched = Watched;
+        }
+
+        public async Task<History> FindByCustomerIdAndSessionId(int customerId, int sessionId)
+        {
+            return await _context.Histories.FindAsync(customerId, sessionId);
+        }
+
         public async Task<IEnumerable<History>> ListAsync()
         {
             return await _context.Histories.Include(s => s.Customer).Include(s => s.Session).ToListAsync();
