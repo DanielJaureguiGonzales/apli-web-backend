@@ -30,7 +30,14 @@ namespace TrainingGain.Api.Controllers
             _customerService = customerService;
             _specialistService = specialistService;
         }
+        [SwaggerOperation(
+           Summary = "List all Reviews",
+           Description = "List of Reviews",
+           OperationId = "ListReviews",
+           Tags = new[] { "Reviews" })]
+        [SwaggerResponse(200, "List of Reviews", typeof(IEnumerable<ReviewResource>))]
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<ReviewResource>), 200)]
         public async Task<IEnumerable<ReviewResource>> GetAllAsync()
         {
             var reviews = await _reviewService.ListAsync();
@@ -38,7 +45,14 @@ namespace TrainingGain.Api.Controllers
             return resources;
         }
 
+        [SwaggerOperation(
+            Summary = "Post a Review",
+                Description = "Post of Review",
+                OperationId = "PostReview",
+           Tags = new[] { "Reviews" })]
+        [SwaggerResponse(200, "Post of Review", typeof(ReviewResource))]
         [HttpPost]
+        [ProducesResponseType(typeof(ReviewResource), 200)]
         public async Task<IActionResult> PostAsync([FromBody] SaveReviewResource resource)
         {
             if (!ModelState.IsValid)
@@ -53,6 +67,9 @@ namespace TrainingGain.Api.Controllers
             return Ok(historyResource);
         }
         [SwaggerOperation(
+            Summary = "List Specialist by customer",
+            Description = "List of Specialist for an specific customer",
+            OperationId = "ListSpecialistByCustomer",
            Tags = new[] { "Customers" })]
         [HttpGet("customers/{customerId}")]
         public async Task<IEnumerable<SpecialistResource>> GetAllByCustomerIdAsync(int customerId)
@@ -63,7 +80,10 @@ namespace TrainingGain.Api.Controllers
         }
 
         [SwaggerOperation(
-          Tags = new[] { "Specialist" })]
+            Summary = "List Customer by Specialist",
+            Description = "List of Customer for an specific Specialist",
+            OperationId = "ListCustomerBySpecialist",
+          Tags = new[] { "Specialists" })]  
         [HttpGet("specialists/{specialistId}")]
         public async Task<IEnumerable<CustomerResource>> GetAllBySpecialistIdAsync(int specialistId)    
         {

@@ -27,6 +27,10 @@ namespace TrainingGain.Api.Domain.Persistance.Context
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<History> Histories { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
+        public virtual DbSet<Equipament> Equipaments { get; set; }
+        public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<EquipamentSession> EquipamentSessions { get; set; }    
+        public virtual DbSet<TagSession> TagSessions { get; set; }      
 
 
 
@@ -41,6 +45,7 @@ namespace TrainingGain.Api.Domain.Persistance.Context
             builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
             builder.Entity<User>().Property(u => u.Name).IsRequired().HasMaxLength(15);
             builder.Entity<User>().Property(u => u.LastName).IsRequired().HasMaxLength(15);
+            builder.Entity<User>().Property(u => u.Description).IsRequired().HasMaxLength(100);
             builder.Entity<User>().Property(u => u.Birth).IsRequired();
             builder.Entity<User>().Property(u => u.Address).IsRequired().HasMaxLength(50);
             builder.Entity<User>().Property(u => u.Phone).IsRequired();
@@ -69,7 +74,8 @@ namespace TrainingGain.Api.Domain.Persistance.Context
             builder.Entity<SubscriptionPlan>().ToTable("subscription_plans");
             builder.Entity<SubscriptionPlan>().HasKey(sp => sp.Id);
             builder.Entity<SubscriptionPlan>().Property(sp => sp.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<SubscriptionPlan>().Property(sp => sp.Description).IsRequired().HasMaxLength(50);
+            builder.Entity<SubscriptionPlan>().Property(sp => sp.Name).IsRequired().HasMaxLength(25);
+            builder.Entity<SubscriptionPlan>().Property(sp => sp.Description).IsRequired().HasMaxLength(100);
             builder.Entity<SubscriptionPlan>().Property(sp => sp.Cost).IsRequired().HasMaxLength(50);
 
             // Subscription entity
@@ -85,9 +91,11 @@ namespace TrainingGain.Api.Domain.Persistance.Context
             builder.Entity<Session>().ToTable("sessions");
             builder.Entity<Session>().HasKey(ss => ss.Id);
             builder.Entity<Session>().Property(ss => ss.Id).IsRequired().ValueGeneratedOnAdd();
-            builder.Entity<Session>().Property(ss => ss.Tittle).IsRequired().HasMaxLength(10);
+            builder.Entity<Session>().Property(ss => ss.Title).IsRequired().HasMaxLength(10);
             builder.Entity<Session>().Property(ss => ss.Description).IsRequired().HasMaxLength(50);
             builder.Entity<Session>().Property(ss => ss.StartDate).IsRequired();
+            builder.Entity<Session>().Property(ss => ss.StartHour).IsRequired().HasMaxLength(5);
+            builder.Entity<Session>().Property(ss => ss.EndHour).IsRequired().HasMaxLength(5);
 
             // History entity 
 
@@ -105,6 +113,32 @@ namespace TrainingGain.Api.Domain.Persistance.Context
             builder.Entity<Review>().Property(r => r.Rank).IsRequired();
             builder.Entity<Review>().HasOne(r => r.Customer).WithMany(c => c.Reviews).HasForeignKey(r => r.CustomerId);
             builder.Entity<Review>().HasOne(r => r.Specialist).WithMany(s => s.Reviews).HasForeignKey(r => r.SpecialistId);
+
+            // Equipaments entity
+            builder.Entity<Equipament>().ToTable("equipaments");
+            builder.Entity<Equipament>().HasKey(e => e.Id);
+            builder.Entity<Equipament>().Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Equipament>().Property(e => e.Name).IsRequired().HasMaxLength(25);
+            builder.Entity<Equipament>().Property(e => e.Description).IsRequired().HasMaxLength(100);
+
+            // Tag entity
+            builder.Entity<Tag>().ToTable("tags");
+            builder.Entity<Tag>().HasKey(t => t.Id);
+            builder.Entity<Tag>().Property(t => t.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Tag>().Property(t => t.Name).IsRequired().HasMaxLength(25);
+            builder.Entity<Tag>().Property(t => t.Description).IsRequired().HasMaxLength(100);
+
+            // equipaments_sessions entity
+            builder.Entity<EquipamentSession>().ToTable("equipament_sessions");
+            builder.Entity<EquipamentSession>().HasKey(es => new { es.EquipamentId, es.SessionId });
+            builder.Entity<EquipamentSession>().HasOne(es => es.Equipament).WithMany(e => e.EquipamentSessions).HasForeignKey(es => es.EquipamentId);
+            builder.Entity<EquipamentSession>().HasOne(es => es.Session).WithMany(s => s.EquipamentSessions).HasForeignKey(es => es.SessionId);
+
+            // tag_sessions entity
+            builder.Entity<TagSession>().ToTable("tag_sessions");
+            builder.Entity<TagSession>().HasKey(ts => new { ts.TagId, ts.SessionId });
+            builder.Entity<TagSession>().HasOne(ts => ts.Tag).WithMany(ts => ts.TagSessions).HasForeignKey(ts => ts.TagId);
+            builder.Entity<TagSession>().HasOne(ts => ts.Session).WithMany(s => s.TagSessions).HasForeignKey(ts => ts.SessionId);   
 
             builder.ApplySnakeCaseNamingConvention();
         }

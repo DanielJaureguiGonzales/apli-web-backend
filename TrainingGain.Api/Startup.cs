@@ -30,8 +30,8 @@ namespace TrainingGain.Api
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<AppDbContext>(option => {
 
-                option.UseMySQL(Configuration.GetConnectionString("MySqlConnection"));
-                //option.UseMySQL(Configuration.GetConnectionString("AzureMySQLConnection"));
+                //option.UseMySQL(Configuration.GetConnectionString("MySqlConnection"));
+                option.UseMySQL(Configuration.GetConnectionString("AzureMySQLConnection"));
 
 
             });
@@ -52,6 +52,14 @@ namespace TrainingGain.Api
             services.AddScoped<IHistoryService, HistoryService>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IEquipamentRepository, EquipamentRepository>();
+            services.AddScoped<IEquipamentService, EquipamentService>();
+            services.AddScoped<ITagSessionRepository, TagSessionRepository>();
+            services.AddScoped<ITagSessionService, TagSessionService>();
+            services.AddScoped<IEquipamentSessionRepository, EquipamentSessionRepository>();
+            services.AddScoped<IEquipamentSessionService, EquipamentSessionService>();
             services.AddRouting(option => option.LowercaseUrls = true);
 
             services.AddCustomSwagger();

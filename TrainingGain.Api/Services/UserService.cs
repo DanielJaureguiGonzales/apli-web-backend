@@ -77,6 +77,7 @@ namespace TrainingGain.Api.Services
 
             existingUser.Name = user.Name;
             existingUser.LastName = user.LastName;
+            existingUser.Description = user.Description;
             existingUser.Birth = user.Birth;
             existingUser.Address = user.Address;
             existingUser.Phone = user.Phone;

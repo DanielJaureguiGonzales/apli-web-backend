@@ -12,7 +12,6 @@ namespace TrainingGain.Api.Domain.Services
     {
         Task<IEnumerable<SubscriptionPlan>> ListAsync();
         Task<IEnumerable<SubscriptionPlan>> ListByCustomerIdAsync(int customerId);
-
         Task<SubscriptionPlanResponse> GetByIdAsync(int id);
         Task<SubscriptionPlanResponse> UpdateAsync(int id, SubscriptionPlan subscriptionPlan);
         Task<SubscriptionPlanResponse> SaveAsync(SubscriptionPlan subscriptionPlan);

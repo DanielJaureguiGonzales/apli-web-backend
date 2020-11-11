@@ -90,6 +90,8 @@ namespace TrainingGain.Api.Services
                 return new SubscriptionPlanResponse("subscription plan not found");
             }
 
+
+            existingSubscriptionPlan.Name = subscriptionPlan.Name;
             existingSubscriptionPlan.Description = subscriptionPlan.Description;
             existingSubscriptionPlan.Cost = subscriptionPlan.Cost;
 

@@ -10,7 +10,7 @@ namespace TrainingGain.Api.Resources
     {
         [Required]
         [MaxLength(30)]
-        public string Tittle { get; set; }
+        public string Title { get; set; }   
         [Required]
         [MaxLength(50)]
         public string Description { get; set; }
@@ -18,6 +18,12 @@ namespace TrainingGain.Api.Resources
         public DateTime StartDate { get; set; }
         [Required]
         public int SpecialistId { get; set; }
+        [Required]
+        [MaxLength(5)]
+        public string StartHour { get; set; }
+        [Required]
+        [MaxLength(5)]
+        public string EndHour { get; set; }
 
     }
 }

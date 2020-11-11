@@ -31,7 +31,14 @@ namespace TrainingGain.Api.Controllers
             _sessionService = sessionService;
         }
 
+        [SwaggerOperation(
+            Summary = "List all Histories",
+           Description = "List of Histories",
+           OperationId = "ListHistories",
+           Tags = new[] { "Histories" })]
+        [SwaggerResponse(200, "List of Histories", typeof(IEnumerable<HistoryResource>))]
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<HistoryResource>), 200)]
         public async Task<IEnumerable<HistoryResource>> GetAllAsync()
         {
             var histories = await _historyService.ListAsync();
@@ -39,7 +46,14 @@ namespace TrainingGain.Api.Controllers
             return resources;
         }
 
+        [SwaggerOperation(
+            Summary = "Post a History",
+                Description = "Post of History",
+                OperationId = "PostHistory",
+           Tags = new[] { "Histories" })]
+        [SwaggerResponse(200, "Post of History", typeof(HistoryResource))]
         [HttpPost]
+        [ProducesResponseType(typeof(HistoryResource), 200)]
         public async Task<IActionResult> PostAsync([FromBody] SaveHistoryResource resource)
         {
             if (!ModelState.IsValid)
@@ -55,6 +69,9 @@ namespace TrainingGain.Api.Controllers
         }
 
         [SwaggerOperation(
+            Summary = "List Session by customer",
+            Description = "List of Session for an specific customer",
+            OperationId = "ListSessionBycustomer",
            Tags = new[] { "Customers" })]
         [HttpGet("customers/{customerId}")]
         public async Task<IEnumerable<SessionResource>> GetAllByCustomerIdAsync(int customerId)
@@ -65,6 +82,9 @@ namespace TrainingGain.Api.Controllers
         }
 
         [SwaggerOperation(
+            Summary = "List Customer by session",
+            Description = "List of Customer for an specific session",
+            OperationId = "ListCustomerBySession",
           Tags = new[] { "Sessions" })]
         [HttpGet("sessions/{sessionId}")]
         public async Task<IEnumerable<CustomerResource>> GetAllBySessionIdAsync(int sessionId)  

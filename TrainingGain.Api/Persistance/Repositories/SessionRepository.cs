@@ -35,9 +35,9 @@ namespace TrainingGain.Api.Persistance.Repositories
             return await _context.Sessions.Where(s => s.SpecialistId == specialistId).Include(s => s.Specialist).ToListAsync();
         }
 
-        public async Task<IEnumerable<Session>> ListAsyncByTittle(string tittle)
+        public async Task<IEnumerable<Session>> ListAsyncByTittle(string title)
         {
-            return await _context.Sessions.Where(pt => pt.Tittle == tittle).Include(s => s.Specialist).ToListAsync();
+            return await _context.Sessions.Where(pt => pt.Title == title).Include(s => s.Specialist).ToListAsync();
         }
 
         public void Remove(Session session)

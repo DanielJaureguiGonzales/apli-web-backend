@@ -9,7 +9,10 @@ namespace TrainingGain.Api.Resources
     public class SaveSubscriptionPlanResource
     {
         [Required]
-        [MaxLength(50)]
+        [MaxLength(25)]
+        public string Name { get; set; }
+        [Required]
+        [MaxLength(100)]
         public string Description { get; set; }
         [Required]
         public int Cost { get; set; }

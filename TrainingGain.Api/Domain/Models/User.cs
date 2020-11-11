@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace TrainingGain.Api.Domain.Models
 {
-    public partial class User
+    public  class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
+        public string Description { get; set; }
         public DateTime Birth { get; set; }
         public string Address { get; set; } 
         public long Phone { get; set; }
@@ -19,7 +20,6 @@ namespace TrainingGain.Api.Domain.Models
         public string Gender { get; set; }
         public string Password { get; set; }
         public Customer Customer { get; set; }
-
         public Specialist Specialist { get; set; }
 
     }

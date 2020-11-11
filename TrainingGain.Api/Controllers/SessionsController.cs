@@ -44,16 +44,16 @@ namespace TrainingGain.Api.Controllers
         }
 
         [SwaggerOperation(
-                Summary = "List all sessions by tittle",
-                Description = "List of Session by tittle",
-                OperationId = "ListAllSessionByTittle",
+                Summary = "List all sessions by title",
+                Description = "List of Session by title",
+                OperationId = "ListAllSessionByTitle",
                 Tags = new[] { "Sessions" })]
-        [SwaggerResponse(200, "List of Session by tittle", typeof(IEnumerable<SessionResource>))]
-        [HttpGet("{tittle}")]
+        [SwaggerResponse(200, "List of Session by title", typeof(IEnumerable<SessionResource>))]
+        [HttpGet("{title}")]
         [ProducesResponseType(typeof(IEnumerable<SessionResource>), 200)]
-        public async Task<IEnumerable<SessionResource>> GetAllAsyncByTittle(string tittle)
+        public async Task<IEnumerable<SessionResource>> GetAllAsyncByTittle(string title)
         {
-            var sessions = await _sessionService.ListAsyncByTittle(tittle);
+            var sessions = await _sessionService.ListAsyncByTittle(title);  
             var resources = _mapper.Map<IEnumerable<Session>, IEnumerable<SessionResource>>(sessions);
             return resources;
         }

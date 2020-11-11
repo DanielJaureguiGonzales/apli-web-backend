@@ -16,6 +16,9 @@ namespace TrainingGain.Api.Resources
         [MaxLength(15)]
         public string LastName { get; set; }
         [Required]
+        [MaxLength(100)]
+        public string Description { get; set; }
+        [Required]
         public DateTime Birth { get; set; }
         [Required]
         [MaxLength(20)]

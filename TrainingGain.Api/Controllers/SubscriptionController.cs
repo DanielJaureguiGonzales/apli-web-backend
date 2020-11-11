@@ -91,6 +91,9 @@ namespace TrainingGain.Api.Controllers
         }
 
         [SwaggerOperation(
+            Summary = "List subscriptionPlans by customer",
+            Description = "List of sessions for an specific customer",
+            OperationId = "ListSubscriptionPlansBycustomer",
             Tags = new[] { "Customers" })]
         [HttpGet("customers/{customerId}")]
         public async Task<IEnumerable<SubscriptionPlanResource>> GetAllByCustomerIdAsync(int customerId)
@@ -100,6 +103,9 @@ namespace TrainingGain.Api.Controllers
             return resources;
         }
         [SwaggerOperation(
+            Summary = "List customers by subscriptionPlan",
+            Description = "List of customers for an specific subscriptionPlan",
+            OperationId = "ListCustomersBysubscriptionPlan",
           Tags = new[] { "SubscriptionPlans" })]
         [HttpGet("plans/{subscriptionPlanId}")]
         public async Task<IEnumerable<CustomerResource>> GetAllBySubscriptionPlanIdAsync(int subscriptionPlanId)
