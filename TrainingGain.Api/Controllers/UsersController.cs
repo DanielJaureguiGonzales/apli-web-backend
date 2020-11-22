@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -28,6 +29,7 @@ namespace TrainingGain.Api.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [SwaggerOperation(
             Summary ="List all users",
             Description ="List of Users",
@@ -65,6 +67,7 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [Authorize]
         [SwaggerOperation(
               Summary = "Put a user",
               Description = "Put of User",
@@ -86,6 +89,7 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [Authorize]
         [SwaggerOperation(
               Summary = "Delete a user",
               Description = "Delete of User",
@@ -104,6 +108,16 @@ namespace TrainingGain.Api.Controllers
 
             var userResource = _mapper.Map<User, UserResource>(result.Resource);
             return Ok(userResource);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody] AuthenticationRequest request)
+        {
+            var response = _userService.Authenticate(request);
+            if (response == null)
+                return BadRequest(new { message = "Invalid Username or Password" });
+            return Ok(response);
         }
     }
 }

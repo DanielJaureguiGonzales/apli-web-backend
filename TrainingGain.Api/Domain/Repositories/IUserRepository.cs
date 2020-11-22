@@ -11,6 +11,7 @@ namespace TrainingGain.Api.Domain.Repositories
         Task<IEnumerable<User>> ListAsync();
         Task AddAsync(User user);
         Task<User> FindById(int id);
+        IEnumerable<User> GetAll();
         void Update(User user);
         void Remove(User user);
     }
