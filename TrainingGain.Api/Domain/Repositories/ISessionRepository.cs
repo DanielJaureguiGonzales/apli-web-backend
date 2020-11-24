@@ -10,6 +10,7 @@ namespace TrainingGain.Api.Domain.Repositories
     {
         Task<IEnumerable<Session>> ListAsync();
         Task<IEnumerable<Session>> ListAsyncByTittle(string tittle);
+        Task<IEnumerable<Session>> ListAsyncBySpecialistId(int specialistId);   
         Task AddAsync(Session session);
         Task<Session> FindById(int id);
         void Update(Session session);

@@ -10,6 +10,7 @@ namespace TrainingGain.Api.Domain.Services
     public interface ISpecialistService
     {
         Task<IEnumerable<Specialist>> ListAsync();
+        Task<IEnumerable<Specialist>> ListByCustomerIdAsync(int customerId);    
         Task<SpecialistResponse> GetByIdAsync(int id);
         Task<SpecialistResponse> SaveAsync(Specialist specialist);
         Task<SpecialistResponse> UpdateAsync(int id, Specialist specialist);

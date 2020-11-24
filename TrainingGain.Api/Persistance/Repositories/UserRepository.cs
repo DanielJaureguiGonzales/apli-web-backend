@@ -17,27 +17,32 @@ namespace TrainingGain.Api.Persistance.Repositories
 
         public async Task AddAsync(User user)
         {
-            await _context.User.AddAsync(user);
+            await _context.Users.AddAsync(user);
         }
 
         public async Task<User> FindById(int id)
         {
-            return await _context.User.FindAsync(id);
+            return await _context.Users.FindAsync(id);
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return _context.Users;
         }
 
         public async Task<IEnumerable<User>> ListAsync()
         {
-            return await _context.User.ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
         public  void Remove(User user)
         {
-            _context.User.Remove(user);
+            _context.Users.Remove(user);
         }
 
         public  void Update(User user)
         {
-            _context.User.Update(user);
+            _context.Users.Update(user);
         }
     }
 }

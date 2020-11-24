@@ -7,7 +7,9 @@ namespace TrainingGain.Api.Resources
 {
     public class SpecialistResource 
     {
-        public string Specialty { get; set; }
         public int Id { get; set; }
+        public int UserId { get; set; }
+        public string Specialty { get; set; }
+
     }
 }

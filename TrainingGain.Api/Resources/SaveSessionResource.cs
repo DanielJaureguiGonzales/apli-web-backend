@@ -9,19 +9,21 @@ namespace TrainingGain.Api.Resources
     public class SaveSessionResource
     {
         [Required]
-        [MaxLength(20)]
-        public string Tittle { get; set; }
-        [Required]
         [MaxLength(30)]
-        public string Description { get; set; }
+        public string Title { get; set; }   
         [Required]
-        public TimeSpan Duration { get; set; }
+        [MaxLength(50)]
+        public string Description { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
         [Required]
-        public bool Enable { get; set; }
+        public int SpecialistId { get; set; }
         [Required]
-        public double Cost { get; set; }
+        [MaxLength(5)]
+        public string StartHour { get; set; }
+        [Required]
+        [MaxLength(5)]
+        public string EndHour { get; set; }
 
     }
 }

@@ -19,373 +19,128 @@ namespace TrainingGain.Api.Domain.Persistance.Context
 
         }
 
-        public virtual DbSet<City> City { get; set; }
-        public virtual DbSet<Country> Country { get; set; }
-        public virtual DbSet<Currency> Currency { get; set; }
-        public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<Session> Session { get; set; }
-        public virtual DbSet<Specialist> Specialist { get; set; }
-        public virtual DbSet<Subscription> Subscription { get; set; }
-        public virtual DbSet<SubscriptionDetail> Subscriptiondetail { get; set; }
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<UserCurrency> Usercurrency { get; set; }
-        public virtual DbSet<UserSpecialist> Userspecialist { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Session> Sessions { get; set; }
+        public virtual DbSet<Specialist> Specialists { get; set; }
+        public virtual DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
+        public virtual DbSet<Subscription> Subscriptions { get; set; }   
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<History> Histories { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
+        public virtual DbSet<Equipament> Equipaments { get; set; }
+        public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<EquipamentSession> EquipamentSessions { get; set; }    
+        public virtual DbSet<TagSession> TagSessions { get; set; }      
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder.Entity<City>(entity =>
-            {
-                entity.ToTable("cities");
 
-                entity.HasIndex(e => e.CountryId)
-                    .HasName("City_Country");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.CountryId).HasColumnName("Country_id");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(30)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.Poblation).HasColumnName("poblation");
-
-                entity.HasOne(d => d.Country)
-                    .WithMany(p => p.City)
-                    .HasForeignKey(d => d.CountryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("City_Country");
-            });
-
-            modelBuilder.Entity<Country>(entity =>
-            {
-                entity.ToTable("countries");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Continent)
-                    .IsRequired()
-                    .HasColumnName("continent")
-                    .HasColumnType("varchar(20)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.Density).HasColumnName("density");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(30)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.Poblation).HasColumnName("poblation");
-            });
-
-            modelBuilder.Entity<Currency>(entity =>
-            {
-                entity.ToTable("currencies");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasColumnName("description")
-                    .HasColumnType("varchar(30)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.Value).HasColumnName("value");
-            });
-
-            modelBuilder.Entity<Customer>(entity =>
-            {
-                entity.ToTable("customers");
-
-                entity.HasIndex(e => e.UserId)
-                    .HasName("Customer_User");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.UserId).HasColumnName("User_id");
-
-                entity.Property(e => e.Description).HasColumnName("description");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Customer)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Customer_User");
-            });
-
-            modelBuilder.Entity<Session>(entity =>
-            {
-                entity.ToTable("sessions");
-
-                entity.HasIndex(e => e.UserId)
-                    .HasName("Session_User");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Cost).HasColumnName("cost");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasColumnName("description")
-                    .HasColumnType("varchar(30)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.Duration)
-                    .HasColumnName("duration")
-                    .HasColumnType("time");
-
-                entity.Property(e => e.Enable).HasColumnName("enable");
-
-                entity.Property(e => e.StartDate)
-                    .HasColumnName("start_date")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.Tittle)
-                    .IsRequired()
-                    .HasColumnName("tittle")
-                    .HasColumnType("varchar(20)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.UserId).HasColumnName("User_id");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Session)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Session_User");
-            });
-
-            modelBuilder.Entity<Specialist>(entity =>
-            {
-                entity.ToTable("specialists");
-
-                entity.HasIndex(e => e.UserId)
-                    .HasName("Specialist_User");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Specialty)
-                    .IsRequired()
-                    .HasColumnName("specialty")
-                    .HasColumnType("varchar(20)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.UserId).HasColumnName("User_id");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Specialist)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Specialist_User");
-            });
-
-            modelBuilder.Entity<Subscription>(entity =>
-            {
-                entity.ToTable("subscriptions");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasColumnName("description")
-                    .HasColumnType("varchar(30)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-            });
-
-            modelBuilder.Entity<SubscriptionDetail>(entity =>
-            {
-                entity.ToTable("subscription_details");
-
-                entity.HasIndex(e => e.SubscriptionId)
-                    .HasName("suscriptionDetail_Suscription");
-
-                entity.HasIndex(e => e.UserId)
-                    .HasName("suscriptionDetail_User");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.ExpiryDate)
-                    .HasColumnName("expiryDate")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.IssueDate)
-                    .HasColumnName("issueDate")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.SubscriptionId).HasColumnName("Subscription_id");
-
-                entity.Property(e => e.UserId).HasColumnName("User_id");
-
-                entity.HasOne(d => d.Subscription)
-                    .WithMany(p => p.Subscriptiondetail)
-                    .HasForeignKey(d => d.SubscriptionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("suscriptionDetail_Suscription");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Subscriptiondetail)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("suscriptionDetail_User");
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("users");
-
-                entity.HasIndex(e => e.CityId)
-                    .HasName("User_City");
-
-                entity.HasIndex(e => e.CountryId)
-                    .HasName("User_Country");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasColumnName("address")
-                    .HasColumnType("varchar(50)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.Age).HasColumnName("age");
-
-                entity.Property(e => e.CityId).HasColumnName("City_id");
-
-                entity.Property(e => e.CountryId).HasColumnName("Country_id");
-
-                entity.Property(e => e.EmailAddress)
-                    .IsRequired()
-                    .HasColumnName("emailAddress")
-                    .HasColumnType("varchar(30)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.Gender)
-                    .IsRequired()
-                    .HasColumnName("gender")
-                    .HasColumnType("varchar(20)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.Lastname)
-                    .IsRequired()
-                    .HasColumnName("lastname")
-                    .HasColumnType("varchar(30)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name")
-                    .HasColumnType("varchar(30)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasColumnName("password")
-                    .HasColumnType("varchar(12)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.Phone).HasColumnName("phone");
-
-                entity.Property(e => e.Username)
-                    .IsRequired()
-                    .HasColumnName("username")
-                    .HasColumnType("varchar(15)")
-                    .HasCharSet("utf8")
-                    .HasCollation("utf8_general_ci");
-
-                entity.HasOne(d => d.City)
-                    .WithMany(p => p.User)
-                    .HasForeignKey(d => d.CityId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("User_City");
-
-                entity.HasOne(d => d.Country)
-                    .WithMany(p => p.User)
-                    .HasForeignKey(d => d.CountryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("User_Country");
-            });
-
-            modelBuilder.Entity<UserCurrency>(entity =>
-            {
-                entity.ToTable("user_currencies");
-
-                entity.HasIndex(e => e.CurrencyId)
-                    .HasName("userCurrency_Currency");
-
-                entity.HasIndex(e => e.UserId)
-                    .HasName("userCurrency_User");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.CurrencyId).HasColumnName("Currency_id");
-
-                entity.Property(e => e.UserId).HasColumnName("User_id");
-
-                entity.HasOne(d => d.Currency)
-                    .WithMany(p => p.Usercurrency)
-                    .HasForeignKey(d => d.CurrencyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("userCurrency_Currency");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Usercurrency)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("userCurrency_User");
-            });
-
-            modelBuilder.Entity<UserSpecialist>(entity =>
-            {
-                entity.HasKey(e => e.Userspecialist1)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("user_specialists");
-
-                entity.HasIndex(e => e.CustomerId)
-                    .HasName("UserSpecialist_Customer");
-
-                entity.HasIndex(e => e.SpecialistId)
-                    .HasName("UserSpecialist_Specialist");
-
-                entity.Property(e => e.Userspecialist1).HasColumnName("userspecialist");
-
-                entity.Property(e => e.CustomerId).HasColumnName("Customer_id");
-
-                entity.Property(e => e.SpecialistId).HasColumnName("Specialist_id");
-
-                entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Userspecialist)
-                    .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("UserSpecialist_Customer");
-
-                entity.HasOne(d => d.Specialist)
-                    .WithMany(p => p.Userspecialist)
-                    .HasForeignKey(d => d.SpecialistId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("UserSpecialist_Specialist");
-            });
-
-            modelBuilder.ApplySnakeCaseNamingConvention();
+            base.OnModelCreating(builder);
+
+            //User entity 
+            builder.Entity<User>().ToTable("users");
+            builder.Entity<User>().HasKey(u => u.Id);
+            builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<User>().Property(u => u.Name).IsRequired().HasMaxLength(15);
+            builder.Entity<User>().Property(u => u.LastName).IsRequired().HasMaxLength(15);
+            builder.Entity<User>().Property(u => u.Description).IsRequired().HasMaxLength(100);
+            builder.Entity<User>().Property(u => u.Birth).IsRequired();
+            builder.Entity<User>().Property(u => u.Address).IsRequired().HasMaxLength(50);
+            builder.Entity<User>().Property(u => u.Phone).IsRequired();
+            builder.Entity<User>().Property(u => u.Age).IsRequired();
+            builder.Entity<User>().Property(u => u.Email).IsRequired().HasMaxLength(50);
+            builder.Entity<User>().Property(u => u.Country).IsRequired().HasMaxLength(10);
+            builder.Entity<User>().Property(u => u.Gender).IsRequired().HasMaxLength(20);
+            builder.Entity<User>().Property(u => u.Password).IsRequired().HasMaxLength(8);
+            builder.Entity<User>().HasOne(u => u.Customer).WithOne(c => c.User).HasForeignKey<Customer>(u => u.UserId);
+            builder.Entity<User>().HasOne(u => u.Specialist).WithOne(s => s.User).HasForeignKey<Specialist>(u => u.UserId);
+
+            //Customer entity 
+            builder.Entity<Customer>().ToTable("customers");
+            builder.Entity<Customer>().HasKey(c => c.Id);
+            builder.Entity<Customer>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Customer>().Property(c => c.Description).IsRequired().HasMaxLength(30);
+
+            // Specialist entity
+            builder.Entity<Specialist>().ToTable("specialists");
+            builder.Entity<Specialist>().HasKey(s => s.Id);
+            builder.Entity<Specialist>().Property(s => s.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Specialist>().Property(s => s.Specialty).IsRequired().HasMaxLength(25);
+            builder.Entity<Specialist>().HasMany(s => s.Sessions).WithOne(ss => ss.Specialist).HasForeignKey(ss => ss.SpecialistId);
+
+            //SubscriptionPlan entity 
+            builder.Entity<SubscriptionPlan>().ToTable("subscription_plans");
+            builder.Entity<SubscriptionPlan>().HasKey(sp => sp.Id);
+            builder.Entity<SubscriptionPlan>().Property(sp => sp.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<SubscriptionPlan>().Property(sp => sp.Name).IsRequired().HasMaxLength(25);
+            builder.Entity<SubscriptionPlan>().Property(sp => sp.Description).IsRequired().HasMaxLength(100);
+            builder.Entity<SubscriptionPlan>().Property(sp => sp.Cost).IsRequired().HasMaxLength(50);
+
+            // Subscription entity
+
+            builder.Entity<Subscription>().ToTable("subscriptions");
+            builder.Entity<Subscription>().HasKey(s => new { s.CustomerId, s.SubscriptionPlanId });
+            builder.Entity<Subscription>().Property(s => s.StartDate).IsRequired();
+            builder.Entity<Subscription>().Property(s => s.ExpiryDate).IsRequired();
+            builder.Entity<Subscription>().HasOne(s => s.Customer).WithMany(c => c.Subscriptions).HasForeignKey(s => s.CustomerId);
+            builder.Entity<Subscription>().HasOne(s => s.SubscriptionPlan).WithMany(sp => sp.Subscriptions).HasForeignKey(s => s.SubscriptionPlanId);
+
+            // Session entity
+            builder.Entity<Session>().ToTable("sessions");
+            builder.Entity<Session>().HasKey(ss => ss.Id);
+            builder.Entity<Session>().Property(ss => ss.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Session>().Property(ss => ss.Title).IsRequired().HasMaxLength(10);
+            builder.Entity<Session>().Property(ss => ss.Description).IsRequired().HasMaxLength(50);
+            builder.Entity<Session>().Property(ss => ss.StartDate).IsRequired();
+            builder.Entity<Session>().Property(ss => ss.StartHour).IsRequired().HasMaxLength(5);
+            builder.Entity<Session>().Property(ss => ss.EndHour).IsRequired().HasMaxLength(5);
+
+            // History entity 
+
+            builder.Entity<History>().ToTable("histories");
+            builder.Entity<History>().HasKey(h => new { h.CustomerId, h.SessionId });
+            builder.Entity<History>().Property(h=>h.Watched).IsRequired();
+            builder.Entity<History>().HasOne(h=>h.Customer).WithMany(c=>c.Histories).HasForeignKey(h=>h.CustomerId);
+            builder.Entity<History>().HasOne(h=>h.Session).WithMany(s=>s.Histories).HasForeignKey(h=>h.SessionId);
+
+            // Review entity
+
+            builder.Entity<Review>().ToTable("reviews");
+            builder.Entity<Review>().HasKey(r => new { r.CustomerId, r.SpecialistId });
+            builder.Entity<Review>().Property(r => r.Description).IsRequired().HasMaxLength(200);
+            builder.Entity<Review>().Property(r => r.Rank).IsRequired();
+            builder.Entity<Review>().HasOne(r => r.Customer).WithMany(c => c.Reviews).HasForeignKey(r => r.CustomerId);
+            builder.Entity<Review>().HasOne(r => r.Specialist).WithMany(s => s.Reviews).HasForeignKey(r => r.SpecialistId);
+
+            // Equipaments entity
+            builder.Entity<Equipament>().ToTable("equipaments");
+            builder.Entity<Equipament>().HasKey(e => e.Id);
+            builder.Entity<Equipament>().Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Equipament>().Property(e => e.Name).IsRequired().HasMaxLength(25);
+            builder.Entity<Equipament>().Property(e => e.Description).IsRequired().HasMaxLength(100);
+
+            // Tag entity
+            builder.Entity<Tag>().ToTable("tags");
+            builder.Entity<Tag>().HasKey(t => t.Id);
+            builder.Entity<Tag>().Property(t => t.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Tag>().Property(t => t.Name).IsRequired().HasMaxLength(25);
+            builder.Entity<Tag>().Property(t => t.Description).IsRequired().HasMaxLength(100);
+
+            // equipaments_sessions entity
+            builder.Entity<EquipamentSession>().ToTable("equipament_sessions");
+            builder.Entity<EquipamentSession>().HasKey(es => new { es.EquipamentId, es.SessionId });
+            builder.Entity<EquipamentSession>().HasOne(es => es.Equipament).WithMany(e => e.EquipamentSessions).HasForeignKey(es => es.EquipamentId);
+            builder.Entity<EquipamentSession>().HasOne(es => es.Session).WithMany(s => s.EquipamentSessions).HasForeignKey(es => es.SessionId);
+
+            // tag_sessions entity
+            builder.Entity<TagSession>().ToTable("tag_sessions");
+            builder.Entity<TagSession>().HasKey(ts => new { ts.TagId, ts.SessionId });
+            builder.Entity<TagSession>().HasOne(ts => ts.Tag).WithMany(ts => ts.TagSessions).HasForeignKey(ts => ts.TagId);
+            builder.Entity<TagSession>().HasOne(ts => ts.Session).WithMany(s => s.TagSessions).HasForeignKey(ts => ts.SessionId);   
+
+            builder.ApplySnakeCaseNamingConvention();
         }
         
     }

@@ -11,5 +11,7 @@ namespace TrainingGain.Api.Resources
         [Required]
         [MaxLength(30)]
         public string Description { get; set; }
+        [Required]
+        public int UserId { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -28,6 +29,7 @@ namespace TrainingGain.Api.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [SwaggerOperation(
             Summary ="List all users",
             Description ="List of Users",
@@ -41,10 +43,16 @@ namespace TrainingGain.Api.Controllers
             var users = await _userService.ListAsync();
             var resources = _mapper.Map<IEnumerable<User>, IEnumerable<UserResource>>(users);
             return resources;
-        } 
+        }
 
-      
+        [SwaggerOperation(
+              Summary = "Post a user",
+              Description = "Post of User",
+              OperationId = "PostUser",
+              Tags = new[] { "Users" })]
+        [SwaggerResponse(200, "Post of User", typeof(UserResource))]
         [HttpPost]
+        [ProducesResponseType(typeof(UserResource), 200)]
         public async Task<IActionResult>PostAsync([FromBody] SaveUserResource resource)
         {
             if (!ModelState.IsValid)
@@ -59,7 +67,15 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [Authorize]
+        [SwaggerOperation(
+              Summary = "Put a user",
+              Description = "Put of User",
+              OperationId = "PutUser",
+              Tags = new[] { "Users" })]
+        [SwaggerResponse(200, "Put of User", typeof(UserResource))]
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(UserResource), 200)]
         public async Task<IActionResult> PutAsync(int id,[FromBody] SaveUserResource resource)
         {
            
@@ -73,7 +89,15 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [Authorize]
+        [SwaggerOperation(
+              Summary = "Delete a user",
+              Description = "Delete of User",
+              OperationId = "DeleteUser",
+              Tags = new[] { "Users" })]
+        [SwaggerResponse(200, "Delete of User", typeof(UserResource))]
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(UserResource), 200)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
 
@@ -84,6 +108,16 @@ namespace TrainingGain.Api.Controllers
 
             var userResource = _mapper.Map<User, UserResource>(result.Resource);
             return Ok(userResource);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody] AuthenticationRequest request)
+        {
+            var response = _userService.Authenticate(request);
+            if (response == null)
+                return BadRequest(new { message = "Invalid Username or Password" });
+            return Ok(response);
         }
     }
 }

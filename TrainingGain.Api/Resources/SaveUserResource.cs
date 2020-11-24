@@ -8,36 +8,37 @@ namespace TrainingGain.Api.Resources
 {
     public class SaveUserResource
     {
-        [Required]
-        [MaxLength(15)]
-        public string Username { get; set; }
-        [Required]
-        [MaxLength(12)]
-        public string Password { get; set; }
-        [Required]
-        [MaxLength(30)]
-        public string EmailAddress { get; set; }
-        [Required]
-        [MaxLength(30)]
-        public string Name { get; set; }
-        [Required]
-        [MaxLength(30)]
-        public string Lastname { get; set; }
-        [Required]
-        public int Age { get; set; }
 
         [Required]
-        [MaxLength(20)]
-        public string Gender { get; set; }
+        [MaxLength(10)]
+        public string Name { get; set; }
         [Required]
-        [MaxLength(50)]
+        [MaxLength(15)]
+        public string LastName { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string Description { get; set; }
+        [Required]
+        public DateTime Birth { get; set; }
+        [Required]
+        [MaxLength(20)]
         public string Address { get; set; }
         [Required]
         public long Phone { get; set; }
         [Required]
-        public int CountryId { get; set; }
+        public int Age { get; set; }
         [Required]
-        public int CityId { get; set; }
+        [MaxLength(50)]
+        public string Email { get; set; }
+        [Required]
+        [MaxLength(25)]
+        public string Country { get; set; }
+        [Required]
+        [MaxLength(20)]
+        public string Gender { get; set; }
+        [Required]
+        [MaxLength(8)]
+        public string Password { get; set; }
 
     }
 }

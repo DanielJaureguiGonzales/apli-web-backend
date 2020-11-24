@@ -12,12 +12,18 @@ namespace TrainingGain.Api.Services
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly ISubscriptionRepository _subscriptionRepository;
+        private readonly IHistoryRepository _historyRepository;
+        private readonly IReviewRepository _reviewRepository;
         public readonly IUnitOfWork _unitOfWork;
 
-        public CustomerService(ICustomerRepository customerRepository, IUnitOfWork unitOfWork)
+        public CustomerService(ICustomerRepository customerRepository, IUnitOfWork unitOfWork, ISubscriptionRepository subscriptionRepository, IHistoryRepository historyRepository, IReviewRepository reviewRepository)
         {
             _customerRepository = customerRepository;
             _unitOfWork = unitOfWork;
+            _subscriptionRepository = subscriptionRepository;
+            _historyRepository = historyRepository;
+            _reviewRepository = reviewRepository;
         }
 
         public async Task<CustomerResponse> DeleteAsync(int id)
@@ -88,6 +94,26 @@ namespace TrainingGain.Api.Services
             {
                 return new CustomerResponse($"An error ocurred while updating customer: {ex.Message}");
             }
+        }
+
+        public async Task<IEnumerable<Customer>> ListBySubscriptionPlanId(int subscriptionplanId)
+        {
+            var subscription = await _subscriptionRepository.ListBySubscriptionPlanIdAsync(subscriptionplanId);
+            var customer = subscription.Select(s => s.Customer).ToList();
+            return customer;
+        }
+        public async Task<IEnumerable<Customer>> ListBySessionIdAsync(int sessionId)    
+        {
+            var histories = await _historyRepository.ListBySessionIdAsync(sessionId);
+            var customers = histories.Select(s => s.Customer).ToList();
+            return customers;
+        }
+
+        public async Task<IEnumerable<Customer>> ListBySpecialistIdAsync(int specialistId)
+        {
+            var histories = await _reviewRepository.ListBySpecialistIdAsync(specialistId);
+            var customers = histories.Select(s => s.Customer).ToList();
+            return customers;
         }
     }
 }

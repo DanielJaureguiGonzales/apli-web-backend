@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TrainingGain.Api.Domain.Models;
 using TrainingGain.Api.Domain.Services;
 using TrainingGain.Api.Extensions;
@@ -13,6 +14,7 @@ using TrainingGain.Api.Resources;
 namespace TrainingGain.Api.Controllers
 {
     [ApiController]
+    [Produces("application/json")]
     [Route("api/[controller]")]
 
     public class SessionsController : ControllerBase
@@ -26,7 +28,14 @@ namespace TrainingGain.Api.Controllers
             _mapper = mapper;
         }
 
+        [SwaggerOperation(
+                Summary = "List all sessions",
+                Description = "List of Sessions",
+                OperationId = "ListAllSessions",
+                Tags = new[] { "Sessions" })]
+        [SwaggerResponse(200, "List of Sessions", typeof(IEnumerable<SessionResource>))]
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<SessionResource>), 200)]
         public async Task<IEnumerable<SessionResource>> GetAllAsync()
         {
             var sessions = await _sessionService.ListAsync();
@@ -34,16 +43,29 @@ namespace TrainingGain.Api.Controllers
             return resources;
         }
 
-        [HttpGet("{tittle}")]
-        public async Task<IEnumerable<SessionResource>> GetAllAsyncByTittle(string tittle)
+        [SwaggerOperation(
+                Summary = "List all sessions by title",
+                Description = "List of Session by title",
+                OperationId = "ListAllSessionByTitle",
+                Tags = new[] { "Sessions" })]
+        [SwaggerResponse(200, "List of Session by title", typeof(IEnumerable<SessionResource>))]
+        [HttpGet("{title}")]
+        [ProducesResponseType(typeof(IEnumerable<SessionResource>), 200)]
+        public async Task<IEnumerable<SessionResource>> GetAllAsyncByTittle(string title)
         {
-            var sessions = await _sessionService.ListAsyncByTittle(tittle);
+            var sessions = await _sessionService.ListAsyncByTittle(title);  
             var resources = _mapper.Map<IEnumerable<Session>, IEnumerable<SessionResource>>(sessions);
             return resources;
         }
 
-
+        [SwaggerOperation(
+                Summary = "Post a session",
+                Description = "Post of Session",
+                OperationId = "PostSession",
+                Tags = new[] { "Sessions" })]
+        [SwaggerResponse(200, "Post of Session", typeof(SessionResource))]
         [HttpPost]
+        [ProducesResponseType(typeof(SessionResource), 200)]
         public async Task<IActionResult> PostAsync([FromBody] SaveSessionResource resource)
         {
             if (!ModelState.IsValid)
@@ -58,7 +80,14 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [SwaggerOperation(
+                Summary = "Put a session",
+                Description = "Put of Session",
+                OperationId = "PutSession",
+                Tags = new[] { "Sessions" })]
+        [SwaggerResponse(200, "Put of Session", typeof(SessionResource))]
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(SessionResource), 200)]
         public async Task<IActionResult> PutAsync(int id, [FromBody] SaveSessionResource resource)
         {
 
@@ -72,7 +101,14 @@ namespace TrainingGain.Api.Controllers
             return Ok(userResource);
         }
 
+        [SwaggerOperation(
+              Summary = "Delete a session",
+              Description = "Delete of Session",
+              OperationId = "DeleteSession",
+              Tags = new[] { "Sessions" })]
+        [SwaggerResponse(200, "Delete of Session", typeof(SessionResource))]
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(SessionResource), 200)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
 

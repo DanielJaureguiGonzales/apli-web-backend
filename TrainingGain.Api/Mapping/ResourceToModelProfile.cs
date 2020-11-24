@@ -16,6 +16,14 @@ namespace TrainingGain.Api.Mapping
             CreateMap<SaveSpecialistResource, Specialist>();
             CreateMap<SaveSessionResource, Session>();
             CreateMap<SaveCustomerResource, Customer>();
+            CreateMap<SaveSubscriptionPlanResource, SubscriptionPlan>();
+            CreateMap<SaveSubscriptionResource, Subscription>();
+            CreateMap<SaveHistoryResource, History>();
+            CreateMap<SaveReviewResource, Review>();
+            CreateMap<SaveTagResource, Tag>();
+            CreateMap<SaveEquipamentResource, Equipament>();
+            CreateMap<SaveTagSessionResource, TagSession>();
+            CreateMap<SaveEquipamentSessionResource, EquipamentSession>();
         }
     }
 }
