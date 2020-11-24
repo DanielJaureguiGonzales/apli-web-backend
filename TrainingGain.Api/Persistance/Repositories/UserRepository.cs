@@ -25,6 +25,11 @@ namespace TrainingGain.Api.Persistance.Repositories
             return await _context.Users.FindAsync(id);
         }
 
+        public IEnumerable<User> GetAll()
+        {
+            return _context.Users;
+        }
+
         public async Task<IEnumerable<User>> ListAsync()
         {
             return await _context.Users.ToListAsync();

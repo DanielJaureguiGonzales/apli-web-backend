@@ -20,6 +20,7 @@ namespace TrainingGain.Api.Resources
         public string Country { get; set; }
         public string Gender { get; set; }
         public string Password { get; set; }
+        public string Token { get; set; }
 
     }
 }
